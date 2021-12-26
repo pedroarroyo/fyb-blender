@@ -5,17 +5,17 @@ Install just as you would any other Blender Add-on (via Edit->Preferences->Add-o
 
 Once installed you will see a ybNFT top level menu. Select 'Export Collections to GLTFs' to export. This will bring up a file dialog where you can select the folder to export to.
 
-The script currently assumes that each set of swappable components is in its top level collection, i.e.:
+The script currently assumes that each set of swappable components is in a top level collection, i.e.:
 
 Scene Collection
-----Buildings
---------bui1
-----Awnings
---------awn1
---------awn2
-----Flanges
---------fla1
---------fla2
+    |-- Buildings
+    |   |-- bui1
+    |-- Awnings
+    |   |-- awn1
+    |   |-- awn2
+    |-- Flanges
+    |   |-- fla1
+    |   |-- fla2
 
 etc.
 
