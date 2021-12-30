@@ -13,8 +13,8 @@ bl_info = {
 
 import bpy
 import os
+import itertools
 
-from itertools import permutations
 from bpy_extras.io_utils import ExportHelper
 from bpy.props import (BoolProperty,
                        FloatProperty,
@@ -125,7 +125,7 @@ class ExportMultipleObjs(bpy.types.Operator, ExportHelper):
     batch_export_levels: IntProperty(
         name='Collection Levels',
         description='Set the levels of collections',
-        default=2
+        default=1
     )
 
     batch_export_materials: EnumProperty(
@@ -179,11 +179,35 @@ class ExportMultipleObjs(bpy.types.Operator, ExportHelper):
         scn_col = context.scene.collection
 
         # Lookups (Collections per level and Parents)
-        lkp_col = col_hierarchy(scn_col, levels=self.batch_export_levels)
+        #lkp_col = col_hierarchy(scn_col, levels=self.batch_export_levels) 
+            
+
+        lkp_col = col_hierarchy(scn_col, levels=2)
+        lkp_col.pop(bpy.data.scenes['Scene'].collection)
+        print("lkp_col")
+        print(lkp_col)
+        print();
+
         prt_col = {i : k for k, v in lkp_col.items() for i in v}
+        print("prt_col")
+        print(prt_col)
+        print();
 
         scn_obj = [o for o in scn_col.objects]
-        candidates = [x for v in lkp_col.values() for x in v]
+        #candidates = [x for v in lkp_col.values() for x in v]
+                
+        keys, values = zip(*lkp_col.items())
+        candidatedicts = [dict(zip(keys, v)) for v in itertools.product(*values)]
+        candidates = []
+        for candidatedict in candidatedicts:
+            candidates.append(list(candidatedict.values())) 
+
+        print("candidates")
+        for candidate in candidates:
+            print (candidate)
+            print ()    
+        #print(list(candidates))        
+        #print()
 
         if not candidates:
             self.report({'INFO'}, "Nothing to export")
@@ -194,37 +218,10 @@ class ExportMultipleObjs(bpy.types.Operator, ExportHelper):
             prt_col.get(c).children.unlink(c)
         for o in scn_obj: 
             scn_col.objects.unlink(o)
-
-        # (Re-)link collections of choice to root level and export
- 
-        """
-        # The following algorithm exports every collection as a separate gtlf        
-        for c in candidates:
-            
-            scn_col.children.link(c)
-
-            fname = file_name(c.name)
-            fpath = os.path.join(folder_path, fname)
-
-            bpy.ops.export_scene.gltf(
-                filepath = fpath,
-                export_format = self.batch_export_format,
-                export_copyright = self.batch_export_copyright,
-                export_image_format = self.batch_export_image_format,
-                export_materials = self.batch_export_materials,
-                export_colors = self.batch_export_colors,
-                export_cameras = self.batch_export_cameras,
-                export_extras = self.batch_export_extras,
-                export_yup = self.batch_export_yup,
-                export_apply = self.batch_export_apply
-            )
-
-            scn_col.children.unlink(c)
-        """
-        # The following algorithm generates every combination
-        # of objects from every to level collection.
-        # Example: [[1,2,3],[4,5,6],[7,8,9,10]] -> [[1,4,7],[1,4,8],...,[3,6,10]]
+        
+        # (Re-)link collections of choice to root level and export        
                 
+        """            
         outlist =[]; templist =[[]]
         for c in candidates:
             #for sublist in c.all_objects:
@@ -237,15 +234,22 @@ class ExportMultipleObjs(bpy.types.Operator, ExportHelper):
                     templist.append(flatten(newitem))
 
         outlist = list(filter(lambda x: len(x)==len(candidates), templist))  # remove some partial lists that also creep in
-        #print (outlist)   
+        print ("OUTPUT SETS")
+        count = 1
+        for outelement in outlist:
+            print ("Set #" + str(count))            
+            print (outelement)
+            print ()  
+            count = count + 1
+        """        
+        # Exports all our candidate sets of collections.
         
-        # Exports all our combination lists.
         assetname = bpy.path.basename(bpy.context.blend_data.filepath).split('.')[0]
         assetindex = 0
-        for sublist in outlist:
+        for collections in candidates:
             
-            for obj in sublist:
-                scn_col.objects.link(obj)
+            for collection in collections:
+                scn_col.objects.link(collection.all_objects)
 
             # Generates an export filename of the format <blender file name>_<00x>    
             findex = str(assetindex).rjust(3, '0')    
@@ -265,16 +269,17 @@ class ExportMultipleObjs(bpy.types.Operator, ExportHelper):
                 export_apply = self.batch_export_apply
             )
 
-            for obj in sublist:
-                scn_col.objects.unlink(obj)
+            for collection in collections:
+                scn_col.objects.unlink(collection.all_objects)
             
             assetindex += 1
-    
+           
         # Reset all back
         for o in scn_obj: 
             scn_col.objects.link(o)
-        for c in candidates: 
-            prt_col.get(c).children.link(c)
+#        for c in candidates: 
+#            prt_col.get(c).children.link(c)
+
         
         return {'FINISHED'}
 
