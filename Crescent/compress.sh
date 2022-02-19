@@ -1,0 +1,3 @@
+gltf-transform uastc test_scene.glb test_scene_uastc.glb
+gltf-transform dedup test_scene_uastc.glb test_scene_uastc_dedup.glb
+gltf-transform draco test_scene_uastc_dedup.glb test_scene_uastc_dedup_draco.glb
