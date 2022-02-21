@@ -1,0 +1,104 @@
+{
+ "numNFTsGenerated": 1,
+ "hierarchy": {
+  "Lighting": {
+   "Lighting_1_0_0": {
+    "name": "Lighting",
+    "number": "1",
+    "rarity": "0",
+    "color": "0"
+   }
+  },
+  "Neons": {
+   "Neons_1_0_0": {
+    "name": "Neons",
+    "number": "1",
+    "rarity": "0",
+    "color": "0"
+   }
+  },
+  "PrimaryColor": {
+   "PrimaryColor_1_0_1": {
+    "name": "PrimaryColor",
+    "number": "1",
+    "rarity": "0",
+    "color": "1"
+   },
+   "PrimaryColor_1_0_2": {
+    "name": "PrimaryColor",
+    "number": "2",
+    "rarity": "0",
+    "color": "2"
+   }
+  },
+  "Props": {
+   "Props_1_0_0": {
+    "name": "Props",
+    "number": "1",
+    "rarity": "0",
+    "color": "0"
+   }
+  },
+  "Trim": {
+   "Trim_1_0_0": {
+    "name": "Trim",
+    "number": "1",
+    "rarity": "0",
+    "color": "0"
+   }
+  },
+  "Windows": {
+   "Windows_1_0_0": {
+    "name": "Windows",
+    "number": "1",
+    "rarity": "0",
+    "color": "0"
+   },
+   "Windows_2_0_0": {
+    "name": "Windows",
+    "number": "2",
+    "rarity": "0",
+    "color": "0"
+   },
+   "Windows_3_0_0": {
+    "name": "Windows",
+    "number": "3",
+    "rarity": "0",
+    "color": "0"
+   },
+   "Windows_4_0_0": {
+    "name": "Windows",
+    "number": "4",
+    "rarity": "0",
+    "color": "0"
+   },
+   "Windows_5_0_0": {
+    "name": "Windows",
+    "number": "5",
+    "rarity": "0",
+    "color": "0"
+   },
+   "Windows_6_0_0": {
+    "name": "Windows",
+    "number": "6",
+    "rarity": "0",
+    "color": "0"
+   },
+   "Windows_7_0_0": {
+    "name": "Windows",
+    "number": "7",
+    "rarity": "0",
+    "color": "0"
+   },
+   "Windows_8_0_0": {
+    "name": "Windows",
+    "number": "8",
+    "rarity": "0",
+    "color": "0"
+   }
+  }
+ },
+ "DNAList": [
+  "1-1-2-1-1-5"
+ ]
+}
